@@ -30,26 +30,12 @@
     }
 </style>
 <body>
-    <h2>my page</h2>
+    <h2>board</h2>
     <!-- <div id="isLoading">
         <img src="./img/charmander_loading.gif" alt="loading gif">
     </div> -->
     <div>
-        <div>
-            <span>name :</span>
-            <span id="user_name"></span>
-        </div>
-        <div>
-            <span>age :</span>
-            <span id="user_age"></span>
-        </div>
-    </div>
-    <a href="http://127.0.0.1:5500/frontend/myinfo.html">edit my info</a>
-    <p></p>
-    <p></p>
-    <div>
-        <div>my posts</div>
-        <table id="mypostTable">
+        <table id="postTable">
             <tr>
                 <th>no.</th>
                 <th>title</th>
@@ -58,31 +44,13 @@
             </tr>
         </table>
     </div>
-    <a href="http://127.0.0.1:5500/frontend/post.html">post page</a>
-    <a href="http://127.0.0.1:5500/frontend/add.html">add page</a>
+    <a href="http://127.0.0.1:5500/frontend/main.html">back to mypage</a>
+    <a href="http://127.0.0.1:5500/frontend/add.html">add new</a>
 </body>
 <script>
     async function getAPI(){
         try {
-            const {data} = await axios.get("http://127.0.0.1:5026/login/view",{
-                // withCredentials : 브라우저가 쿠키를 서버로 전달 할 수 있는 옵션
-                withCredentials : true
-            });
-            console.log(data);
-            user_name.innerHTML = data.name;
-            user_age.innerHTML = data.age;
-            // setTimeout(() => {
-            //     isLoading.classList.add("disable");
-            // }, 500);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    getAPI();
-
-    async function getAPI2(){
-        try {
-            const {data} = await axios.get("http://127.0.0.1:5026/post/mypost",{
+            const {data} = await axios.get("http://127.0.0.1:5026/post",{
                 // withCredentials : 브라우저가 쿠키를 서버로 전달 할 수 있는 옵션
                 withCredentials : true
             });
@@ -99,7 +67,7 @@
                 postDate.classList.add("postDate");
                 const row = document.createElement("tr");
                 row.classList.add("tableRow");
-                mypostTable.appendChild(row);
+                postTable.appendChild(row);
                 row.appendChild(postNum);
                 row.appendChild(postTitle);
                 row.appendChild(postWriter);
@@ -110,9 +78,9 @@
                 postDate.innerHTML = el.createdAt;
             });
         } catch (error) {
-            
+            console.log(error);
         }
-    }
-    getAPI2();
+    };
+    getAPI();
 </script>
 </html>
