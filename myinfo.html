@@ -6,9 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my info</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        #profileImgBox{
+            width: 200px;
+            height: 130px;
+        }
+        #profImg{
+            width: 100px;
+            height: 100px;
+
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
     <form action="http://127.0.0.1:5026/myinfo" method="post">
+        <div id="profileImgBox">
+            <img id="profImg" src="" alt="">
+            <input type="file" id="file" name="profileImage">
+        </div>
         <label for="">name</label> <br/>
         <input id="nameInput" type="text" name="name"> <br/>
         <label for="">age</label> <br/>
@@ -18,8 +34,9 @@
         <label for="">password</label> <br/>
         <input id="passwordInput" type="password" name="password"> <br/>
         <p></p>
-        <button>update</button>
+        <button id="updateBtn">update</button>
     </form>
+    <!-- <img src="../backend/uploads/pikachu_1685429105479.png" alt=""> -->
 </body>
 <script>
     // use axios
@@ -29,10 +46,11 @@
                 // withCredentials : 브라우저가 쿠키를 서버로 전달 할 수 있는 옵션
                 withCredentials : true
             });
-            console.log(data);
+            // console.log(data);
             nameInput.value = data.name;
             ageInput.value = data.age;
             usernameInput.value = data.username;
+            profImg.src = data.profileImage;
             // setTimeout(() => {
             //     isLoading.classList.add("disable");
             // }, 500);
@@ -42,5 +60,27 @@
         }
     };
     getAPI();
+
+    updateBtn.onclick = ()=>{
+        const fileInput = document.getElementById("file");
+        const file = fileInput.files[0];
+        const form = new FormData();
+        // form.append("imgs",imgs.value);
+        // console.log(file.files[0]);
+        form.append("upload",file);
+
+        axios.post("http://127.0.0.1:5026/upload",form,{
+            headers : {
+                "Content-Type" : "multipart/form-data"
+            }
+        }).then((e)=>{
+            console.log(e.data);
+            console.log(e.data.filename);
+            // profImg.src = `../backend/uploads/${e.data.filename}`;
+        }).catch((err)=>{
+            console.log(err);
+            console.log("unable to show the uploaded image");
+        });
+    };
 </script>
 </html>

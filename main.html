@@ -8,6 +8,16 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <style>
+    #profileImgBox{
+        width: 350px;
+        height: 100px;
+    }
+    #profileImg{
+        width: 100px;
+        height: 100px;
+        
+        border-radius: 50%;
+    }
     #isLoading{
         width: 100%;
         height: 100%;
@@ -31,9 +41,12 @@
 </style>
 <body>
     <h2>my page</h2>
-    <!-- <div id="isLoading">
-        <img src="./img/charmander_loading.gif" alt="loading gif">
-    </div> -->
+    <div id="profileImgBox">
+        <img id="profileImg" src="" alt="">
+    </div>
+    <p></p>
+    <p></p>
+    <p></p>
     <div>
         <div>
             <span>name :</span>
@@ -44,9 +57,9 @@
             <span id="user_age"></span>
         </div>
     </div>
-    <a href="http://127.0.0.1:5500/frontend/myinfo.html">edit my info</a>
+    <a href="http://127.0.0.1:5501/frontend/myinfo.html">edit my info</a>
     <p></p>
-    <p></p>
+    <p>-------------------------------</p>
     <div>
         <div>my posts</div>
         <table id="mypostTable">
@@ -58,8 +71,8 @@
             </tr>
         </table>
     </div>
-    <a href="http://127.0.0.1:5500/frontend/post.html">post page</a>
-    <a href="http://127.0.0.1:5500/frontend/add.html">add page</a>
+    <a href="http://127.0.0.1:5501/frontend/post.html">post page</a>
+    <a href="http://127.0.0.1:5501/frontend/add.html">add page</a>
 </body>
 <script>
     async function getAPI(){
@@ -68,9 +81,10 @@
                 // withCredentials : 브라우저가 쿠키를 서버로 전달 할 수 있는 옵션
                 withCredentials : true
             });
-            console.log(data);
+            // console.log(data);
             user_name.innerHTML = data.name;
             user_age.innerHTML = data.age;
+            profileImg.src = data.profileImage;
             // setTimeout(() => {
             //     isLoading.classList.add("disable");
             // }, 500);
@@ -86,9 +100,9 @@
                 // withCredentials : 브라우저가 쿠키를 서버로 전달 할 수 있는 옵션
                 withCredentials : true
             });
-            console.log(data);
+            // console.log(data);
             data.forEach((el,index)=>{
-                console.log(el);
+                // console.log(el);
                 const postNum = document.createElement("td");
                 postNum.classList.add("postNum");
                 const postTitle = document.createElement("td");
@@ -110,9 +124,29 @@
                 postDate.innerHTML = el.createdAt;
             });
         } catch (error) {
-            
+            console.log(error);
         }
     }
     getAPI2();
+
+    // uploadBtn.onclick = ()=>{
+    //     const form = new FormData();
+    //     // form.append("imgs",imgs.value);
+    //     console.log(file.files[0]);
+    //     form.append("upload",file.files[0]);
+
+    //     axios.post("http://127.0.0.1:5026/upload",form,{
+    //         "Content-Type" : "multipart/form-data"
+    //     }).then((e)=>{
+    //         console.log(e.data);
+    //         console.log(e.data.filename);
+    //         console.log(form);
+    //         profileImg.src = `http://localhost:5026/img/${e.data.filename}`;
+    //         profileImg.alt = "your profile image";
+    //     }).catch((err)=>{
+    //         console.log(err);
+    //         console.log("unable to show the uploaded image");
+    //     });
+    // };
 </script>
 </html>
